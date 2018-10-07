@@ -1,0 +1,440 @@
+\documentclass[11pt]{article}
+% \usepackage{phase1}
+\usepackage{graphics,graphicx,color}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{epsfig}
+\usepackage{amssymb}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage[labelfont=bf]{caption}
+%\usepackage{enumitem}
+\usepackage{hyperref}
+\newcolumntype{C}{>{$}c<{$}}
+\def\Vhrulefill{\leavevmode\leaders\hrule height 0.7ex depth \dimexpr0.4pt-0.7ex\hfill\kern0pt}
+
+\newcommand{\etal}{et.~al.}
+
+\begin{document}
+
+\begin{center}
+\textbf{\large Homework \#1: Cosmology \& Conversions}\\
+\textbf{\large SOLUTIONS}
+\vspace{2mm}
+
+{\sc AST386: Prof.\ Caitlin Casey}
+\end{center}
+\vspace{4mm}
+
+\begin{enumerate}
+\item No solution necessary! Congratulations.
+
+\item Converting between flux, flux density, luminosity and magnitudes
+  are critical skills to professional astronomers, and often prove
+  confusing.  Here are a set of exercises to make you more adept at
+  these conversions.  You will need to visit this page to download a
+  series of files to complete this set of problems:\\
+  \begin{center}
+\vspace{-0.5cm}
+  \begin{tabular}{|l|l|}
+    \multicolumn{2}{c}{www.as.utexas.edu/$\sim$cmcasey/ast386/hw1tools/}\\
+    \hline
+    Template Stellar A0V Spectrum & spectrum\_A0V.txt \\
+    \hline
+    Subaru $g$-band filter profile & subaru\_g.txt \\
+    \hline
+    Subaru $r$-band filter profile & subaru\_r.txt \\
+    \hline
+    Subaru $i$-band filter profile & subaru\_i.txt \\
+    \hline
+    Subaru $z$-band filter profile & subaru\_z.txt \\
+    \hline
+    Subaru $Y$-band filter profile & subaru\_y.txt \\
+    \hline
+  \end{tabular}\\
+  \end{center}
+  The first column of every file is the wavelength (in \AA).  The
+  second column of the template stellar spectrum is given in $S_{\nu}$
+  units (erg\,s$^{-1}$\,cm$^{-2}$\,Hz$^{-1}$), and the second column
+  of the filter profile is representative of the total system response
+  T$_\lambda$, or the product of the filter response, detector quantum
+  efficiency, instrument and telescope throughput and atomsphereic
+  transmission.  In other words, T$_\lambda$ is the fraction of light
+  that gets through at a given wavelength.
+  \begin{enumerate}
+    \item Plot the spectrum of the A0V star, along with a
+      flat-spectrum source of flux density 3631\,Jy, overplotting and
+      labeling each of these filters.  Make sure the plot is legible,
+      and add labels/legends sufficient for me to fully understand
+      what is plotted.  You will need to rescale the filter curves to
+      be clearly visible on the plot.
+
+{\color{gray} I first converted all of the wavelengths into $\mu\!m$
+  from $\AA$, and plotted just the filter system response functions
+  from g through y-bands.  The flux density scale for the Vega
+  template is on a completely different scale than the system response
+  (which ranges from 0 to 1), so I multiplied the Vega template by
+  $2\times10^{19}$ to scale nicely against the filter profiles.  I
+  overplot a flat spectrum source of 3631\,Jy (also multiplied by
+  2$\times10^{19}$ as a dashed line.}
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=4in]{plot2a.pdf}
+\end{figure}
+
+    \item the AB magnitude system is defined such that a flat-spectrum
+      source with flux density of 3631\,Jy has a measured flux density
+      of (...drumroll...) 3631\,Jy in all filters, regardless of filter
+      bandwidth/shape.  In the $AB$ magnitude system, such a source
+      would have a magnitude of 0 in all bands.  If the template
+      spectrum for the A0V star were to represent Vega, what is the
+      magnitude of Vega in the AB system across these five filters?
+      (This is the offset between Vega magnitudes and AB magnitudes
+      for these filters.)
+
+{\color{gray} We first compute the flux density of Vega in each of the
+  five bands using the following equation from Tokunaga \&\ Vacca
+  (2005):
+\begin{equation}
+F_{filter}=\frac{\int\lambda F_\lambda(\lambda)S(\lambda)d\lambda}{\int\lambda S(\lambda)d\lambda}
+\end{equation}
+This requires that we convert from F$_\nu$ units to F$_\lambda$ units
+by multiplying by c/$\lambda^2$.  Once we have the flux density for
+Vega in erg\,s$^{-1}$\,cm$^{-2}$\,\AA$^{-1}$, we can convert back to
+$F_\nu$ units (or you could have stayed in F$_\nu$ units the entire
+time, and calculate the magnitude of Vega using:
+\begin{equation}
+M = -2.5\log\Big(\frac{F_{\nu,vega}}{3631\,{\rm Jy}}\Big)
+\end{equation}
+
+The results are that Vega should have the following magnitudes in these filters: 
+-0.099 (g), 0.157 (r), 0.399 (i), 0.542 (z), and 0.622 (y).
+ } 
+
+      \item What do you notice about the values of these offsets and
+        the shape of the spectrum of Vega?
+
+{\color{gray} Vega is brighter than the flat spectrum source in $g$
+  band and fainter in all other bands.  So it follows that the
+  magnitude for Vega is $<$0 in $g$ and positive in all other bands
+  (and is fainter and fainter towards redder filters).}
+
+      \item Plot the A0V spectrum in units of $\nu\!L_{\nu}$, assuming
+        it is Vega and Vega is 7.68\,pc from us (note that
+        $1\,pc=3.086\times10^{16}\,m$).  Overplot
+        $\lambda\!L_{\lambda}$ on the same plot for comparison.  From
+        this plot, what can you surmise about how intrinsically bright
+        Vega is compared to the Sun? (this should give you some
+        feeling of why people sometimes plot in units of
+        $\nu\!L_{\nu}$ or $\lambda\!L_\lambda$.)
+
+{\color{gray} If we convert the spectrum to $\nu L_\nu$ or $\lambda
+  L_\lambda$ we get the same result: the two quantities are
+  equivalent!  From this plot I would surmise that Vega is brightest
+  at 4000\AA, at about $\sim$60L$_\odot$.  Indeed, the apparent
+  luminosity of Vega is $\sim$57L$_\odot$. Note that it's actual
+  luminosity is 40L$_\odot$, and the difference is due to the star's
+  high rate of rotation and differential emergent flux as a function
+  of line-of-sight with respect to the axis of rotation.  In any case,
+  $\nu L_\nu$ is useful for inferring how luminous whatever object
+  actually is bolometrically, and what wavelengths of light dominate
+  that luminosity!}
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=4in]{plot2d.pdf}
+\end{figure}
+
+
+  \end{enumerate}
+
+\item This problem will introduce the concept of stellar population
+  synthesis (SPS) models by building up a basic understanding of
+  stellar populations.  SPS models are critical to how we understand
+  the stellar emission of high-redshift galaxies as integrated light
+  sources, and so it is very important to understand how they are
+  built.  This problem deals with bolometric quantities, and the next
+  problem will introduce some of the mechanics of building SPS models
+  with real templates.
+  \begin{enumerate}
+    \item The Salpeter IMF (Salpeter 1955) is parameterized:
+      \begin{equation}
+        \xi(\log\!m) = \frac{d(N/V)}{d\log\!m} = \frac{dn}{d\log\!m}\propto\!m^{-x}
+      \end{equation}
+      where $x=1.35$.  Using this distribution of stellar masses, plot
+      the cumulative stellar mass fraction from high masses to low, in
+      other words $f(>\!m)$ vs. $m$.  You can stop at the brown
+      dwarf/hydrogen burning limit, $\sim$80\,M$_{\rm jup}$.  What is
+      the average mass of a star drawn at random from this Salpeter
+      distribution (i.e. the expectation value)?
+
+{\color{gray} To compute the cumulative fraction of stellar mass
+  function, I first convert $\xi(\log m)$ into $dn/dm$.  The stellar
+  mass function that exists at a mass $m$ or above is then equal to:
+  \begin{equation}
+    f(>m) = \int_{m}^{\infty}\frac{dn}{dm}m\,dm = \int_{m}^{\infty}m^{-2.35}m\,dm = \frac{m^{-0.35}}{0.35}
+  \end{equation}
+  This is plotted here:
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=4in]{plot1a.pdf}
+\end{figure}
+The expectation value for a mass distribution $p(m)=dn/dm$ is defined:
+\begin{equation}
+E(m) = \frac{\int m\,p(m)\,dm}{\int p(m)\,dm}
+\end{equation}
+For this distribution integrated between a stellar mass of 80\,M$_{\rm
+  Jup}$ and 100\,M$_\odot$, the expectation value is
+0.27\,M$_{\odot}$.
+ }
+    \item The relationship between a star's luminosity and mass can be
+      parameterized roughly as:
+      \vspace{1mm}
+      \begin{tabular}{CCCC}
+        \frac{L}{L_\odot}\approx0.23\Big(\frac{M}{M_\odot}\Big)^{2.3} & 
+        \frac{L}{L_\odot}\approx\Big(\frac{M}{M_\odot}\Big)^{4} & 
+        \frac{L}{L_\odot}\approx1.5\Big(\frac{M}{M_\odot}\Big)^{3.5} & 
+        \frac{L}{L_\odot}\approx3200\Big(\frac{M}{M_\odot}\Big) \\
+        (M<0.43M_\odot) &
+        (0.43M_\odot<M<2M_\odot) &
+        (2M_\odot<M<20M_\odot) &
+        (M>20M_\odot) \\
+      \end{tabular}
+      \vspace{1mm}
+      What is the highest mass main sequence star you expect to live past
+      100\,Myr? 500\,Myr? 1\,Gyr?
+
+{\color{gray} Using the mass scale I defined for part (a) I generated
+  a luminosity function according to the above scalings.  Here's a
+  plot of stellar lifetimes on the main sequence by mass:
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=4in]{plot1b.pdf}
+\end{figure}
+
+Then we can read off this plot the masses of the stars equal to the
+lifetimes given: 5.3\,M$_\odot$ (100\,Myr), 2.8\,M$_\odot$ (500\,Myr),
+and 2.1\,M$_\odot$ (1\,Gyr).
+%max mass for 100Myr lifetime:       5.3398988
+% Expectation value for mass for 100Myr population=       0.22866642
+%max mass for 500Myr lifetime:       2.8024189
+% Expectation value for mass for 500Myr population=       0.21279091
+%max mass for 1Gyr lifetime:       2.1258521
+% Expectation value for mass for 1Gyr population=       0.20500890
+
+}
+
+    \item If you assume that a stellar population is aged 500\,Myr,
+      what would be the average mass of a star drawn at random?  How
+      does this differ from your answer to part (a), and how would it
+      differ for a stellar population that is aged 1\,Gyr? (You can
+      ignore evolved stars for the purposes of this problem even
+      though we know they're... important.)
+
+{\color{gray} Here we just use the expectation value for a mass given
+  a distribution, as in part (a), but we truncate the stellar mass
+  distribution at its maximum mass given an age, as determined in part
+  (b).  The result is the following average masses: 0.23\,M$_\odot$,
+  0.21\,M$_\odot$, and 0.21\,M$_\odot$.  In other words, small, and
+  not changing a whole lot since the IMF is very bottom heavy!}
+
+    \item What is the fractional contribution for stars of a given
+      mass $m$ to the total light emitted by a given stellar
+      population?  Plot this as a cumulative distribution, $f_{\rm
+        L}(>m)$ as a function of $m$.  Hint: it would be wise to
+      convert $\xi(\log\!m)$ to $dn/dl$ for this step.  What can you
+      say about what types of stars dominate the light of any given
+      stellar population?
+
+{\color{gray} For this problem, we need to convert $\xi(\log m)$ to
+  $dn/dl$, using the luminosity-mass relations given in part (b).
+  This requires some piecewise integration!  Since we want to know
+  what the contribution is {\it above} a certain mass limit, it would
+  be good to start at the high end.  The cumulative contribution to
+  luminosity will be:
+\begin{equation}
+f_L(>m) = \int_{l(m)}^{\infty} \frac{dn}{dl}\,dl = \int_{l(m)}^{l_{\rm max}}\frac{3200}{ln(10)}\Big(\frac{L}{3200}\Big)^{-x-1}\,dl = \frac{3200^{x+2}}{ln(10)}\Big(\frac{l_{\rm max}^{1-x}}{1-x}-\frac{l(m)^{1-x}}{1-x}\Big)
+\end{equation}
+Here $l(m)$ is the luminosity of a star of mass $m$ and $l_{\rm max}$
+is the luminosity of a 100\,M$_\odot$ star.  We proceed to piece
+together this function $f_{L}(>m)$ between each mass interval in a
+similar manner, adding the total light contribution from the higher
+mass intervals to given piecewise $f_{L}(>m)$.  Here is a plot of the
+final function:}
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=4in]{plot1d.pdf}
+\end{figure}
+
+    \item Generate the same plot in part (d) but adjust it to
+      represent a 500\,Myr-old and 1\,Gyr-old stellar population.
+      Mark the three curves (including the 0-age curve) clearly.
+
+{\color{gray} To plot this, we have to remove the light contribution
+  from all main sequence stars that would have died by the given
+  epoch.  Amazingly, $>$99\%\ of the light is from stars that have
+  lifetimes shorter than 100\,Myr, and so this makes a big difference!
+  Computationally, an aged version of the function $f_{L}$ is
+  calculated by taking
+  $f^\prime_{L}(>m,\tau)=\frac{f_{L}(>m)-f_L(>m_{\rm
+      max})}{1-f_L(>m_{\rm max})}$.  We get:
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=4in]{plot1e.pdf}
+\end{figure}
+
+
+  Obviously the elephant in the room is the lack of accounting for
+  evolved massive stars, which would add another layer of complexity
+  to this since they are bright, but this exercise still hammers home
+  the point that only the brightest of the brightest stars contribute
+  to the bolometric luminosity of a stellar population. Sad!}
+\end{enumerate}
+  \item This problem builds on the previous problem, but now you are
+    asked to build up a stellar population model spectrally.  To do
+    this you will need to download and unpack the contents of this
+    folder:
+    {\tt http://www.as.utexas.edu/$\sim$cmcasey/ast386/hw2tools/}
+%{\tt http://www.pas.rochester.edu/$\sim$emamajek/EEM\_dwarf\_UBVIJHK\_colors\_Teff.txt}
+    In that folder there is a file named kurucz93.tar.gz and a file
+    named EEM\_dwarf\_UBVIJHK\_colors\_Teff.txt.  The first is a
+    directory of stellar atmosphere model spectra from Kurucz (1993)
+    for a range of metallicities, effective temperatures and surface
+    gravities.  The txt file should be used to map effective
+    temperature and luminosity back to mass\footnote{The table quotes
+      T$_{\rm eff}$ for stars between $0.1<M/M_\odot<19.6$ with a
+      rough gridding, so you'll have to interpolate between these
+      points to come up with good T$_{\rm eff}$ estimates for all mass
+      points on the scale you used in problem 1.  At high masses you
+      should interpolate towards a 100\,M$_\odot$ star having a
+      45,000\,K temperature.}.  You can read the readme files in the
+    Kurucz directories for more information, in addition to the
+    annotations of the txt file.
+  \begin{enumerate}
+  \item Using the same mass range as in problem 1, plot $T_{\rm
+    eff}$ against stellar mass and stellar luminosity $L$ vs stellar
+    mass (by interpolating the values given in the reference txt
+    file).
+
+{\color{gray} To do this, I read in the data from the
+  EEM\_dwarf\_UBVIJHK\_colors\_Teff.txt file, and plotted those that
+  had Msun and Teff values.  I took the log of both, and I added one
+  data point at 100\,M$_\odot$ and 45,000\,K, then I performed an
+  interpolation in IDL between the data points.  Overplotted on both
+  of these plots are the original points from the EEM file (as red
+  circles) and my interpolated array between (black line).  I have
+  also overplotted the analytic approximation to luminosity (as given
+  in problem 1b) on the mass-luminosity plot for fun (in blue), so you can see
+  how they compare.
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=3in]{plot2a1.pdf}
+%\includegraphics[width=3in]{plot2a2.pdf}
+\end{figure}
+
+}
+
+
+  \item Now that you know the effective temperature and luminosity
+    across our entire mass range, you can make a composite spectrum
+    for the stellar population as a whole.  For each value of your
+    stellar mass grid, you should read in the appropriate Kurucz
+    model, choosing the closest one in effective temperature.  For the
+    gravity you can adopt: $T_{\rm eff}\ge41000\,K$ (column g50),
+    $36000\ge T_{\rm eff}<41000\,K$ (column g45), $9000\ge T_{\rm
+      eff}<36000\,K$ (column g40), and $T_{\rm eff}<9000\,K$ (column
+    g45).  You'll want to add all of the spectra of the stars
+    together, proportional to how many stars of each type are in the
+    stellar population.  Plot the resulting stellar population
+    spectrum in $\nu L_\nu$ units against wavelength.  Be sure to make
+    sensible choices for your axes and think about whether or not it
+    would be best to use a linear or a log scale to present your
+    results.
+
+{\color{gray} This was a lot of work!  First I read in all of the
+  templates in the kp00 directory and made an array of arrays of the
+  flux density (in $f_\lambda$, as indicated in the readme file) for
+  each temperature given.  I also made an array of those
+  representative temperatures.  Then I generated an interpolated
+  spectrum for each mass point of my mass array by combining the
+  spectra in the two nearest temperature bins that span the $T_{\rm
+    eff}$ value for the given mass point shown in part (a). I scaled
+  the flux for the template linearly with temperature between points.
+
+  Then to get the total spectrum for the stellar population, I
+  multiplied $\xi(\log m)\times\delta\log m$ by the flux array at that
+  $\log m$ point to get the total contribution from stars of that
+  spectral type.  Then I summed all of those contributions up over all
+  masses to create a template spectrum for the whole stellar
+  population.  The units of my spectrum are still proportional to
+  $f_{\lambda}$, so to convert to something proportional to $\nu
+  L_{\nu}$, I multiplied through by the wavelength in $\AA$ to get
+  $\lambda f_\lambda$, which is $\propto\nu L_\nu$.  This is the
+  resulting spectrum I obtain (left panel).  I choose a log scale to
+  show the dynamic range and I hone in on the optical through
+  mid-infrared portion of the spectrum: }
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=3in]{plot2b.pdf}
+%\includegraphics[width=3in]{plot2c.pdf}
+\end{figure}
+
+
+  \item Now go back and split up this spectrum into the contribution
+    from stars in different mass ranges.  You choose 3-4 mass ranges
+    that you think convey the most interesting results.  State what
+    mass ranges you assume clearly and label them on your plot.
+
+{\color{gray} (Plotted above right) Looking at the luminosities of
+  stars in different mass ranges in part (a) I decided to make five
+  bins of the following mass cuts: $M/M_\odot<0.5$, $0.5<M/M_\odot<2$,
+  $2<M/M_\odot<5$, $5<M/M_\odot<20$, and $M/M_\odot>20$. We can see
+  that the contribution of low mass stars is really quite a bit lower
+  than the contribution of high-mass stars.}
+
+  \item Using your results from problem 1 now generate a spectrum of
+    this stellar population after it has aged 500\,Myr, and dilineate
+    the contributions from each of the mass ranges chosen in part
+    (c).  Then, do the same for a 1\,Gyr age.
+
+{\color{gray} To do this I follow a similar procedure as I used in
+  problem 1, by noting the maximum main sequence stellar mass I expect
+  to still be around at 500\,Myr or 1\,Gyr.  As noted there, these
+  masses are 2.8\,M$_\odot$ and 2.1\,M$_\odot$ respectively.  This
+  means the two highest mass ranges from part (c) no longer exist!
+  (errr, well as evolved stars, which we're ignoring).  Here are the
+  results of what's left, plotted as the total spectrum in black and
+  the remaining stellar mass ranges colored appropriately.}
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[width=3in]{plot2d1.pdf}
+%\\\includegraphics[width=3in]{plot2d2.pdf}
+\end{figure}
+
+
+  \item What differences and similarities do you notice across these
+    stellar population models?  What types of stars dominate the
+    spectrum over what wavelength range?
+
+{\color{gray} The spectra are overall quite different!  The 0-age
+  stellar population model is very blue and basically equal to the
+  aggregate spectra of all of the massive OB stars.  As the population
+  ages, the UV/blue light diminishes substantially.  I do notice that
+  the SED shape at long wavelengths appears largely similar at all
+  ages though, with the same intrinsic slope.  It seems like most of
+  the light is dominated by the highest mass stars that exist at any
+  given time.}
+
+\end{enumerate}
+\end{enumerate}
+
+
+\end{document}
