@@ -206,7 +206,7 @@ t_solar = 1e10
 G = 6.67e-8#cm^3g^-1s^-2
 dm = 1.98748e32
 dl = 1e33
-
+d = 7.68 * 3.086e18 #parsecs to cm
 
 def cumulative_mass_fraction(low_mass_limit, high_mass_limit):
 
@@ -405,7 +405,7 @@ fig.savefig("CSLF.pdf", bbox_inches='tight')
 #####################################################
 
 #pop data into arrays
-A0V_spectrum = '/home/pbc463/Desktop/Fall18_Courses/Galaxies/HW1/tools/EEM_dwarf_UBVIJHK_colors_Teff'
+A0V_spectrum = 'tools/EEM_dwarf_UBVIJHK_colors_Teff'
 
 SpT = []
 Teff = []
@@ -465,7 +465,7 @@ fig.savefig("LvsM.pdf", bbox_inches='tight')
 
 file_temps = np.zeros(61)
 
-with open('/home/pbc463/Desktop/Fall18_Courses/Galaxies/HW1/tools/kurucz93/kp00/files.lis') as fp:
+with open('tools/kurucz93/kp00/files.lis') as fp:
 	for i, line in enumerate(fp):
 		right = line[:-6]
 		left = right[5:]
@@ -492,9 +492,13 @@ LumbyTemp_500 = np.zeros((1221, 28))
 LumbyTemp_1 = np.zeros((1221,21))
 wavelengths = np.zeros(1221)
 
+FluxbyTemp = np.zeros((1221, len(x)))
+FluxbyTemp_500 = np.zeros((1221, 28))
+FluxbyTemp_1 = np.zeros((1221,21))
+
 for i in range(len(x)):
 
-	fits_table_filename = '/home/pbc463/Desktop/Fall18_Courses/Galaxies/HW1/tools/kurucz93/kp00/kp00_' + str(nearestTemps[i]) + '.fits'
+	fits_table_filename = 'tools/kurucz93/kp00/kp00_' + str(nearestTemps[i]) + '.fits'
 
 	hdul = fits.open(fits_table_filename)  # open a FITS file
 	data = hdul[1].data  # assume the first extension is a table
@@ -512,15 +516,20 @@ for i in range(len(x)):
 		g = 'g50'
 		
 		
-	R_star = (G * x[i] / (10^(int(g[1:]))))**(1/2)
+	R_star = (G * x[i] * M_solar / (10^(int(g[1:]))))**(1/2)
+	if i ==1:
+		print(R_star)
 	# show the values in field "g45"
 	wavelengths = data['WAVELENGTH']
-	fluxes = data[g]
+	fluxes = data[g] * ((R_star/d)**2)
 	LumbyTemp[:,i] = fluxes * 4 * math.pi * (R_star**2) * n_distribution[i]
+	FluxbyTemp[:,i] = fluxes * n_distribution[i]
 	if i < 28:
 		LumbyTemp_500[:,i] = fluxes * 4 * math.pi * (R_star**2) * n_distribution_500[i]
+		FluxbyTemp_500[:,i] = fluxes * n_distribution_500[i]
 	if i < 21:
 		LumbyTemp_1[:,i] = fluxes * 4 * math.pi * (R_star**2) * n_distribution_1[i]
+		FluxbyTemp_1[:,i] = fluxes * n_distribution_1[i]
 	#print(fluxes * n_distribution[i])
 	hdul.close()
 
@@ -530,15 +539,15 @@ wavelengthsInCm = wavelengths * 1e-8
 nu = c / wavelengthsInCm
 
 cumulativeL_nu = np.zeros(len(LumbyTemp))
-
-#print(LumbyTemp)
+cumulativeF_nu = np.zeros(len(LumbyTemp))
 
 for i in range(len(LumbyTemp)):
 	cumLnuofnu = (sum(LumbyTemp[i,:]) * c) / (nu[i]**2)
-	#print(sum(LumbyTemp[i,:]))
+	cumFluxofnu = (sum(FluxbyTemp[i,:]) * c) / (nu[i]**2)
 	cumulativeL_nu[i] = cumLnuofnu
+	cumulativeF_nu[i] = cumFluxofnu
 
-	
+'''
 #plot spectra
 fig = plt.figure()
 plt.style.use('ggplot')
@@ -550,7 +559,7 @@ plt.tight_layout()
 #plt.show()
 
 fig.savefig("compositespectra.pdf", bbox_inches='tight')
-
+'''
 
 #part c
 LumbyTemp_range1 = np.zeros((len(LumbyTemp), 5))
@@ -597,7 +606,7 @@ for i in range(len(LumbyTemp_range4)):
 	cumLnuofnu = (sum(LumbyTemp_range4[i,:]) * c) / (nu[i]**2)
 	cumulativeL_nu_range4[i] = cumLnuofnu
 
-
+'''
 #plot spectra
 fig = plt.figure()
 plt.style.use('ggplot')
@@ -642,16 +651,19 @@ plt.tight_layout()
 #plt.show()
 
 fig.savefig("compositespectrarange4.pdf", bbox_inches='tight')
-
+'''
 
 #part d
 #500 Myr
 
 cumulativeL_nu_500 = np.zeros(len(LumbyTemp))
+cumulativeF_nu_500 = np.zeros(len(LumbyTemp))
 
 for i in range(len(LumbyTemp_500)):
 	cumLnuofnu =(sum(LumbyTemp_500[i,:]) * c) / (nu[i]**2)
+	cumFnuofnu =(sum(FluxbyTemp_500[i,:]) * c) / (nu[i]**2)
 	cumulativeL_nu_500[i] = cumLnuofnu
+	cumulativeF_nu_500[i] = cumFnuofnu
 
 #part c
 LumbyTemp_range1_500 = np.zeros((len(LumbyTemp), 5))
@@ -690,7 +702,7 @@ for i in range(len(LumbyTemp_range1_500)):
 	cumLnuofnu = (sum(LumbyTemp_range3_500[i,:]) * c) / (nu[i]**2)
 	cumulativeL_nu_range3_500[i] = cumLnuofnu
 
-
+'''
 #plot spectra
 fig = plt.figure()
 plt.style.use('ggplot')
@@ -724,16 +736,19 @@ plt.tight_layout()
 #plt.show()
 
 fig.savefig("compositespectrarange3_500.pdf", bbox_inches='tight')
-
+'''
 
 #part d
 #1 Gyr
 
 cumulativeL_nu_1 = np.zeros(len(LumbyTemp))
+cumulativeF_nu_1 = np.zeros(len(LumbyTemp))
 
 for i in range(len(LumbyTemp_1)):
 	cumLnuofnu =(sum(LumbyTemp_1[i,:]) * c) / (nu[i]**2)
+	cumFnuofnu =(sum(FluxbyTemp_1[i,:]) * c) / (nu[i]**2)
 	cumulativeL_nu_1[i] = cumLnuofnu
+	cumulativeF_nu_1[i] = cumFnuofnu
 
 #part c
 LumbyTemp_range1_1 = np.zeros((len(LumbyTemp), 5))
@@ -774,7 +789,7 @@ for i in range(len(LumbyTemp_range1_1)):
 	cumulativeL_nu_range3_1[i] = cumLnuofnu
 
 
-	
+'''
 #plot spectra
 fig = plt.figure()
 plt.style.use('ggplot')
@@ -852,27 +867,9 @@ plt.tight_layout()
 #plt.show()
 
 fig.savefig("composite1Gyr.pdf", bbox_inches='tight')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+'''
+np.savetxt('LumbyTemp.csv', cumulativeF_nu, delimiter = ',')
+np.savetxt('LumbyTemp_500.csv', cumulativeF_nu_500, delimiter = ',')
+np.savetxt('LumbyTemp_1.csv', cumulativeF_nu_1, delimiter = ',')
+np.savetxt('wavelengthsinMicrons.csv', wavelengthsInMicrons, delimiter = ',')
 
